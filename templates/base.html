@@ -1,0 +1,554 @@
+{% load static %}
+{% load i18n %} 
+{% load mptt_tags %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>La Marchesa</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/themify-icons.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/icon-font.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/hamburgers.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/animsition.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/daterangepicker.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/select2.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/slick.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/nouislider.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'fonts/elegant-font/html-css/style.css' %}">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/lightbox.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body class="animsition">
+	<!-- header fixed -->
+	<div class="wrap_header fixed-header2 trans-0-4" style="background-color: #f0a1bf;">
+		<!-- Logo -->
+		<a href="{% url 'core:index' %}" class="logo">
+			<img src="{% static 'images/icons/logo-white.png' %}" alt="IMG-LOGO">
+		</a>
+		<!-- Menu -->
+		<div class="wrap_menu">
+			<nav class="menu">
+				<ul class="main_menu">
+					{% for cat in categories %}
+						<li>
+							<a href="{{cat.get_absolute_url}}" style="color: #ffffff;">{{cat.name|truncatechars:12}}</a>
+							<ul class="sub_menu">
+								{% for c in cat.sub_categories.all %}
+									<li><a href="{{c.get_absolute_url}}" class="text-uppercase text-light">{{c|truncatechars:12}}</a></li>
+								{% endfor %}
+							</ul>
+						</li>
+					{% endfor %}
+					
+				</ul>
+			</nav>
+		</div>
+		<!-- Header Icon -->
+		<div class="header-icons">
+			{% with total_items=cart|length %}
+			<div class="header-wrapicon2">
+				<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+				<span class="header-icons-noti">
+					{% if total_items > 0 %}
+					{{ total_items }}
+				{% else %}
+					0
+				{% endif %}
+				</span>
+				<!-- Header cart noti -->
+				<div class="header-cart header-dropdown">
+					{% for item in cart %}
+						{% with product=item.product %}
+							<li class="header-cart-item">
+								<div class="header-cart-item-img">
+									{% if product.first_image %}
+										<img src="{{product.first_image}}" alt="IMG">
+									{% else %}
+										<img src="{% static 'images/no-photo.jpg' %}" alt="{{prod.name}}">
+									{% endif %}
+								</div>
+								<div class="header-cart-item-txt">
+									<a href="#" class="header-cart-item-name">
+										{{product.name}}
+									</a>
+									<span class="header-cart-item-info">
+										{{item.quantity}} x {{product.price}}
+									</span>
+								</div>
+							</li>
+						{% endwith %}
+					{% endfor %}
+
+					<div class="header-cart-total">
+						Total: {{ cart.get_total_price }} DZD
+					</div>
+
+					<div class="header-cart-buttons">
+						<div class="header-cart-wrapbtn">
+							<!-- Button -->
+							<a href="{% url 'cart:cart_detail' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+								{% trans "Voir panier" %}
+							</a>
+						</div>
+
+						<div class="header-cart-wrapbtn">
+							<!-- Button -->
+							<a href="{% url 'order:order_create' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+								{% trans "Commander" %}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endwith %}
+		</div>
+	</div>
+	<div class="flex-c-m size22 bg0 s-text21 pos-relative">
+		{% trans "livraison gratuite pour une commande supérieure à 10 000 DA" %}
+		<a href="{% url 'core:products' %}" class="s-text22 hov6 p-l-5">
+			Shop 
+		</a>
+
+		<button class="flex-c-m pos2 size23 colorwhite eff3 trans-0-4 btn-romove-top-noti">
+			<i class="fa fa-remove fs-13" aria-hidden="true"></i>
+		</button>
+	</div>
+
+	<!-- Header -->
+	<header class="header2">
+		<!-- Header desktop -->
+		<div class="container-menu-header-v2 p-t-16 ">
+			<div class="topbar2 p-b-10">
+				<div class="topbar-social">
+					<a href="#" class="topbar-social-item fa fa-facebook" style="color: #f0a1bf;" ></a>
+					<a href="#" class="topbar-social-item fa fa-instagram" style="color: #f0a1bf;" ></a>
+				</div>
+
+				<!-- Logo2 -->
+				<a href="{% url 'core:index' %}" class="logo2">
+					<img src="{% static 'images/icons/logo.png' %}" alt="IMG-LOGO">
+				</a>
+				<div class="topbar-child2">
+					<span class="topbar-email" style="color: #f0a1bf;">
+						hello@maisonlamarchesa.com
+					</span>
+				{% comment %}
+				<div class="topbar-language rs1-select2">
+					<select class="selection-1" name="time">
+						<option>AR</option>
+						<option>FR</option>
+					</select>
+				</div>
+				{% endcomment %}
+					<span class="linedivide1"></span>
+					{% with total_items=cart|length %}
+						<div class="header-wrapicon2 m-r-13">
+							<img src="{% static 'images/icons/icon-bag-pink.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+							<span class="header-icons-noti">
+								{% if total_items > 0 %}
+									{{ total_items }}
+								{% else %}
+									0
+								{% endif %}
+							</span>
+							<!-- Header cart noti -->
+							<div class="header-cart header-dropdown">
+								<ul class="header-cart-wrapitem">
+									{% for item in cart %}
+										{% with product=item.product %}
+										<li class="header-cart-item">
+											<div class="header-cart-item-img">
+												{% if product.photo1 %}
+													<img src="{{product.photo1.url}}" alt="IMG">
+												{% else %}
+													<img src="{% static 'images/no-photo.jpg' %}" alt="{{prod.name}}">
+												{% endif %}
+											</div>
+											<div class="header-cart-item-txt">
+												<a href="#" class="header-cart-item-name">
+													{{product.name}}
+												</a>
+												<span class="header-cart-item-info">
+													{{item.quantity}} x {{product.price}}
+												</span>
+											</div>
+										</li>
+										{% endwith %}
+									{% endfor %}
+								</ul>
+								<div class="header-cart-total">
+									Total: {{ cart.get_total_price }} DZD
+								</div>
+								<div class="header-cart-buttons">
+									<div class="header-cart-wrapbtn">
+										<!-- Button -->
+										<a href="{% url 'cart:cart_detail' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+											Voir panier
+										</a>
+									</div>
+									<div class="header-cart-wrapbtn">
+										<!-- Button -->
+										<a href="{% url 'order:order_create' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+											Commander
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endwith %}
+				</div>
+			</div>
+			<div class="wrap_header">
+				<!-- Menu -->
+				<div class="wrap_menu">
+					<nav class="menu">
+						<ul class="main_menu">
+							<li>
+								<a class="active sale-noti" href="{% url 'core:index' %}">Accueil</a>
+							</li>
+							<li>
+								<a href="{% url 'core:about' %}">A propos</a>
+							</li>
+							{% recursetree categories %}
+								<li>
+									<a href="{{cat.get_absolute_url}}">{{node.name}}</a>
+									{% if node.children.count > 0 %}
+										<ul class="sub_menu">
+											{% for tree in node.children.all %}
+												<li><a class="text-uppercase" href="{{tree.get_absolute_url}}">{{tree.name}}</a></li>
+											{% endfor %}
+										</ul>
+									{% endif %}
+								</li>
+							{% endrecursetree %}
+							<li>
+								<a href="{% url 'core:contact' %}">Contact</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+
+		<!-- Header Mobile -->
+		<div class="wrap_header_mobile" style="background-color: #f0a1bf;" >
+			<!-- Logo moblie -->
+			<a href="{% url 'core:index' %}" class="logo-mobile">
+				<img src="{% static 'images/icons/logo-white.png' %}" alt="IMG-LOGO">
+			</a>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu">
+				<!-- Header Icon mobile -->
+				<div class="header-icons-mobile">
+					
+
+					<span class="linedivide2"></span>
+					{% with total_items=cart|length %}
+						<div class="header-wrapicon2">
+							<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+							<span class="header-icons-noti">
+								{% if total_items > 0 %}
+									{{ total_items }}
+								{% else %}
+									0
+								{% endif %}
+							</span>
+
+							<!-- Header cart noti -->
+							<div class="header-cart header-dropdown">
+								<ul class="header-cart-wrapitem">
+									{% for item in cart %}
+										{% with product=item.product %}
+											<li class="header-cart-item">
+												<div class="header-cart-item-img">
+													{% if product.photo1 %}
+														<img src="{{product.photo1.url}}" alt="IMG">
+													{% else %}
+														<img src="{% static 'images/no-photo.jpg' %}" alt="{{prod.name}}">
+													{% endif %}
+												</div>
+												<div class="header-cart-item-txt">
+													<a href="#" class="header-cart-item-name">
+														{{product.name}}
+													</a>
+													<span class="header-cart-item-info">
+														{{item.quantity}} x {{product.price}}
+													</span>
+												</div>
+											</li>
+										{% endwith %}
+									{% endfor %}
+								</ul>
+								<div class="header-cart-total">
+									Total: {{ cart.get_total_price }} DZD
+								</div>
+								<div class="header-cart-buttons">
+									<div class="header-cart-wrapbtn">
+										<a href="/panier" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">Voir panier</a>
+									</div>
+									<div class="header-cart-wrapbtn">
+										<a href="{% url 'order:order_create' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">Commander</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endwith %}
+
+				</div>
+
+				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Menu Mobile -->
+		<div class="wrap-side-menu" >
+			<nav class="side-menu">
+				<ul class="main-menu">
+					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+						<span class="topbar-child1">
+							Livraison gratuite pour une commande de 8000 DZD et plus
+						</span>
+					</li>
+					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+						<div class="topbar-child2-mobile">
+							<span class="topbar-email">
+								hello@maisonlamarchesa.com
+							</span>
+						</div>
+					</li>
+					<li class="item-topbar-mobile p-l-10">
+						<div class="topbar-social-mobile">
+							<a href="#" class="topbar-social-item fa fa-facebook"></a>
+							<a href="#" class="topbar-social-item fa fa-instagram"></a>
+						</div>
+					</li>
+					<li>
+						<a class="sale-noti" href="{% url 'core:index' %}">Accueil</a>
+					</li>
+					<li>
+						<a href="{% url 'core:about' %}">A propos</a>
+					</li>
+					{% for cat in categories %}
+						<li>
+							<a href="{{cat.get_absolute_url}}">{{cat.name}}</a>
+							<ul class="sub_menu">
+								{% for c in cat.sub_categories.all %}
+									<li><a href="{{c.get_absolute_url}}" class="text-uppercase">{{c}}</a></li>
+								{% endfor %}
+							</ul>
+						</li>
+					{% endfor %}
+					<li>
+						<a href="{% url 'core:contact' %}">Contact</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+{% block content %}
+  
+{% endblock content %}
+
+	<!-- Footer -->
+	<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
+		<div class="flex-w p-b-90">
+			<div class="w-size6 p-t-30 p-l-15 p-r-15 respon3">
+				<h4 class="s-text12 p-b-30">
+					{% trans "RESTER EN CONTACT" %}
+				</h4>
+
+				<div>
+					<p class="s-text7 w-size27">
+						{% trans "Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879" %}
+					</p>
+
+					<div class="flex-m p-t-30">
+						<a href="#" class="fs-18 color1 p-r-20 fa fa-facebook"></a>
+						<a href="#" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
+					</div>
+				</div>
+			</div>
+
+			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+				<h4 class="s-text12 p-b-30">
+					{% trans "Categories" %}
+				</h4>
+
+				<ul>
+					{% for cat in categories %}
+						<li class="p-b-9">
+							<a href="{{cat.get_absolute_url}}" class="s-text7">
+								{{cat.name|truncatechars:12}}
+							</a>
+						</li>
+					{% endfor %}
+
+					
+				</ul>
+			</div>
+
+			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+				<h4 class="s-text12 p-b-30">
+					<a href="{% url 'core:paiement' %}" class="s-text12">
+						{% trans "Paiement" %}
+					</a>
+				</h4>
+
+				<ul>
+					<li class="p-b-9">
+						<a href="{% url 'core:virement-bancaire' %}" class="s-text7">
+							{% trans "Virement bancaire" %}
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="{% url 'core:paiement-especes' %}" class="s-text7">{% trans "Paiement en espèces" %}</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="{% url 'core:crte-bancaire' %}" class="s-text7">
+						{% trans "	Carte bancaire" %}
+						</a>
+					</li>
+
+				
+				</ul>
+			</div>
+
+			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+				<h4 class="s-text12 p-b-30">
+					<a href="{% url 'core:livraison' %}" class="s-text12">
+						{% trans "Livraison" %}
+					</a>
+				</h4>
+				<ul>
+					
+					<li class="p-b-9">
+						<a href="{% url 'core:retour' %}" class="s-text7">
+							{% trans "Retours & Remboursement" %}
+						</a>
+					</li>
+					<li class="p-b-9">
+						<a href="{% url 'core:echange' %}" class="s-text7 text-capitalize">
+						{% trans "	échange" %}
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+
+		<div class="t-center p-l-15 p-r-15">
+
+			<a href="#">
+				<img  src="{% static 'images/icons/facebook.png' %}" alt="IMG-facebook" style="height:44px;">
+			</a>
+
+			<a href="#">
+				<img  src="{% static 'images/icons/instagram.png' %}" alt="IMG-instagram" style="height:44px;">
+			</a>
+
+			<div class="t-center s-text8 p-t-20">
+				<p class="copy_right text-center">
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> Tous droits réservés Maison La Marchesa | Powred by <a href="https://octopus-consulting.com/" target="_blank">OCTOPUS CONSULTING</a>
+				</p>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top bg0-hov" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
+		</span>
+	</div>
+
+	<!-- Container Selection1 -->
+	<div id="dropDownSelect1"></div>
+
+
+<script type="text/javascript" src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/select2/select2.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'vendor/slick/slick.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+
+
+
+
+<script type="text/javascript" src="{% static 'vendor/noui/nouislider.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+<script type="text/javascript">
+	/*[ No ui ]
+	===========================================================*/
+	var filterBar = document.getElementById('filter-bar');
+
+	noUiSlider.create(filterBar, {
+		start: [ 50, 200 ],
+		connect: true,
+		range: {
+			'min': 50,
+			'max': 200
+		}
+	});
+</script>
+{% block javascript %}
+  
+{% endblock javascript %}
+<script type="text/javascript">
+	$('.block2-btn-addwishlist').each(function(){
+
+		var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+		$(this).on('click', function(){
+			var prod=$(this).attr('data-prod');
+
+			console.log('boom', prod);
+			$.ajax({
+		type : 'GET',
+        url: "{% url 'cart:cart_add_one_product' %}",
+		data: {
+          'product_id': prod
+        },
+        success: function () {
+			swal(nameProduct, "Produit ajouté au panier avec succés", "success");
+          }
+      });
+	});
+});
+
+
+		
+</script>
+	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'js/form-commune.js' %}"></script>
+
+</body>
+</html>

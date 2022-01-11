@@ -1,0 +1,75 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% static "images" as baseUrl %}
+
+{% block content %}
+  
+	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url({% static 'images/banner_1.jpg' %});">
+		<h2 class="l-text2 t-center">
+			{% trans "Femmes" %}
+		</h2>
+		<p class="m-text13 t-center">
+			{% trans "Nouveautés Collection Femme" %}
+		</p>
+	</section>
+
+	<!-- Content page -->
+	<section class="bgwhite p-t-55 p-b-65">
+		<div class="container">
+			<div class="row">
+				<!-- <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+					<div class="leftbar p-r-20 p-r-0-sm">
+						<h4 class="m-text14 p-b-7">
+							{% trans "Catégories" %}
+						</h4>
+						<ul class="p-b-54">
+							<li class="p-t-4">
+								<a href="{% url 'core:products' %}" class="s-text13 active1">
+									{% trans "Tous" %}
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div> -->
+				<div class="col-12 p-b-50">
+					<div class="flex-sb-m flex-w p-b-35">
+						<span class="s-text8 p-t-5 p-b-5">
+							<h3 >
+								{% if size > 1 %} {% blocktrans %}{{size}} Produits trouvés{% endblocktrans %} {% else %} {% blocktrans %}{{size}} Produit trouvé{% endblocktrans %} {% endif %}
+							</h3>
+						</span>
+					</div>
+						<div class="row">
+							{% for prod in products %}
+								<div class="col-6 col-md-4 col-lg-3">
+									{% include "snippets/product-block.html" %}
+								</div>
+							{% endfor %}
+						</div>
+					{% if products.paginator.num_pages > 1 %}
+					<!-- Pagination -->
+						<div class="pagination flex-m flex-w p-t-26">
+							{% if products.has_previous %}
+							<a href="?page={{ products.previous_page_number }}" class="flex-c-m trans-0-4 page">← {% trans "Page précédante" %} </a>
+							<a href="?page={{ products.previous_page_number }}" class="item-pagination flex-c-m trans-0-4">{{ products.previous_page_number}}</a>
+							{% else %}
+							<a href="#" class="flex-c-m trans-0-4 page disabled" disabled>← {% trans "Page précédante" %} </a>
+							{% endif %}
+							<a href="?page={{ products.number }}" class="item-pagination flex-c-m trans-0-4 active-pagination">{{ products.number }}</a>
+							{% if products.has_next %}
+							<a href="?page={{ products.next_page_number }}" class="item-pagination flex-c-m trans-0-4">{{ products.next_page_number }}</a>
+							<a href="?page={{ products.next_page_number }}" class="flex-c-m trans-0-4 page">{% trans "Page suivante" %} →</a>
+							{% else %}
+							<a href="#" class="flex-c-m trans-0-4 page disabled" disabled>{% trans "Page suivante" %} →</a>
+							{% endif %}
+						</div> 
+					{%endif%}
+					<!-- End Pagination -->
+				</div>
+			</div>
+		</div>
+	</section>
+
+{% endblock content %}

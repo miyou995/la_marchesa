@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% load static %}
+            <!-- Begin Li's Breadcrumb Area -->
+            {% block content %}
+              
+            <!-- Li's Breadcrumb Area End Here -->
+            <!-- Begin Li's Main Blog Page Area -->
+            <div class="li-main-blog-page pt-60 pb-55">
+                <div class="container">
+                    <div class="row">
+                        <!-- Begin Li's Main Content Area -->
+                        <div class="col-lg-12">
+                            <div class="row li-main-content">
+                                {% for project in realisations %}
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="li-blog-single-item pb-25">
+                                        <div class="li-blog-banner">
+                                            <img class="img-full" src="{{project.images.all.0.image.url}}" alt="">
+                                        </div>
+                                        <div class="li-blog-content">
+                                            <div class="li-blog-details">
+                                                <h3 class="li-blog-heading pt-25">{{project.title}}</h3>
+                                                <p>{{project.description}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %} 
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="li-blog-single-item pb-25">
+                                            <div class="li-blog-banner">
+                                                <a href="https://www.octopus-consulting.com"><img class="img-full" src="{{business.logo.url}}" alt=""></a>
+                                            </div>
+                                            <div class="li-blog-content">
+                                                <div class="li-blog-details">
+                                                    <h3 class="li-blog-heading pt-25"><a href="blog-details-left-sidebar.html">blog image post</a></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                
+                                <!-- Begin Li's Pagination Area -->
+                                
+                            </div>
+                        </div>
+                        <!-- Li's Main Content Area End Here -->
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Main Blog Page Area End Here -->
+            <!-- Begin Footer Area -->
+            {% endblock content %}
+           

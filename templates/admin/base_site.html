@@ -1,0 +1,30 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+
+{% block title %}{{ title }} | {{ site_title|default:_('La Marchesa - Panel') }}{% endblock %}
+
+{% block extrahead %}
+    <link rel="icon" href="{% static 'images/icons/favicon.png' %}"/>
+{% endblock %}
+
+
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">  
+{% endblock extrastyle %}
+
+
+{% block branding %}
+<h1 id="head">
+  <a href="https://www.octopus-consulting.com" target="_blank">
+    <img src="{% static 'images/admin_logo.png' %}" width="195" alt="Octo SHOP ADMIN" >
+  </a>
+</h1>
+{% endblock branding %}
+
+{% block welcome-msg %}
+                Bienvenue
+                <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+{% endblock %}
