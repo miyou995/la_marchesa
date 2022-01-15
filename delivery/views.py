@@ -5,8 +5,13 @@ from .models import Commune, Wilaya
 def load_communes(request):
     wilaya_id = request.GET.get('wilaya_id')
     print('wilaya id', wilaya_id)
+
+    try:
+        wil_id = Wilaya.objects.get(name=wilaya_id)
+    except:
+        wil_id = Wilaya.objects.get(id=wilaya_id)
     if wilaya_id:
-        communes = Commune.objects.filter(wilaya__id=wilaya_id)
+        communes = Commune.objects.filter(wilaya=wil_id)
         print('les wilayas', communes)
     else:
         communes = []

@@ -68,10 +68,10 @@
 						<!--Grid column-->
 						<div class="col-6">
 							<div class="form-group">
-								<select class="input" name="wilaya" id="wilayaId"  required>
+								<select class="input" name="wilaya" id="wilayaId" required>
 									<option class="option" value='' selected>Wilaya ( الولاية)</option>
 									{% for wilaya in wilayas %}
-										<option class="option" data-price={{wilaya.price}} value={{wilaya.id}}>{{wilaya.name}}</option>
+										<option class="option" data-price={{wilaya.price}} value="{{wilaya.id}}">{{wilaya.name}}</option>
 									{% endfor %}
 								</select>
 							</div>
@@ -80,9 +80,6 @@
 							<div class="form-group">
 								<select class="input" name="commune" id="communesId" required>
 									<option class="option" value='' selected>Commune (البلدية)</option>
-									{% for commune in communes %}
-										<option class="option" value={{commune.id}}>{{commune.name}}</option>
-									{% endfor %}
 								</select>
 							</div>
 						</div>
