@@ -71,7 +71,7 @@
 								<select class="input" name="wilaya" id="wilayaId" required>
 									<option class="option" value='' selected>Wilaya ( الولاية)</option>
 									{% for wilaya in wilayas %}
-										<option class="option" data-price={{wilaya.price}} value="{{wilaya.id}}">{{wilaya.name}}</option>
+										<option class="option" data-price="{{wilaya.home_delivery}}" value="{{wilaya.id}}">{{wilaya.name}}</option>
 									{% endfor %}
 								</select>
 							</div>

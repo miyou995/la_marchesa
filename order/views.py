@@ -12,6 +12,8 @@ from django.template.loader import render_to_string
 from cart.cart import Cart
 from coupons.models import Coupon
 from delivery.models import Wilaya, Commune
+
+
 def order_create_one_product(request,product_id=None):
     form = OrderCreateForm()
     if request.method == 'POST':
@@ -60,9 +62,9 @@ def order_create(request):
             if form.is_valid():
                 print('le formulaire est valid')
                 order = form.save()
-                order.delivery_cost = order.wilaya.price
+                order.delivery_cost = order.wilaya.home_delivery
                 order.save()
-                print('delivery cost', order.wilaya.price)
+                print('delivery cost', order.wilaya.home_delivery)
                 for item in cart:
                     OrderItem.objects.create(order=order,product=item['product'],price=item['price'],quantity=item['quantity'])
                     print('produit ->', item['product'], 'stock avant -> ', item['product'].stock)
@@ -87,6 +89,8 @@ def order_create(request):
                     'total_price_with_delivery': total_price_with_delivery
                 }
                 return render(request, 'created.html', context)
+            else: 
+                print('errerurrrs', form.errors)
     else: 
         return redirect(reverse('core:index'))
     return render(request, 'create.html', {'cart':cart, 'form' : form, 'wilayas': wilayas})

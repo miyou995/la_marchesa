@@ -21,14 +21,14 @@ class OrderCreateForm(forms.ModelForm):
         self.fields['commune'].queryset = Commune.objects.none()
         self.fields['quantity'] = forms.IntegerField(min_value=1)
 
-        if 'wilaya' in self.data:
-            try:
-                wilaya_id = int(self.data.get('wilaya'))
-                self.fields['commune'].queryset = Commune.objects.filter(wilaya_id=wilaya_id).order_by('name')
-            except (ValueError, TypeError):
-                pass
-        elif not 'wilaya' in self.data:
-            self.fields['commune'].queryset = Commune.objects.none()
+        # if 'wilaya' in self.data:
+        #     try:
+        #         wilaya_id = int(self.data.get('wilaya'))
+        #         self.fields['commune'].queryset = Commune.objects.filter(wilaya_id=wilaya_id).order_by('name')
+        #     except (ValueError, TypeError):
+        #         pass
+        # elif not 'wilaya' in self.data:
+        #     self.fields['commune'].queryset = Commune.objects.none()
 
 class OrderFormWithOutQuantity(OrderCreateForm):
     def __init__(self, *args, **kwargs):
