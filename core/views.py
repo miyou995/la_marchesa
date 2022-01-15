@@ -13,7 +13,7 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["products"] = Product.objects.filter(actif=True, to_home_page=True)
-        context["home_categories"] = Category.objects.filter(actif=True)[:3]
+        context["home_categories"] = Category.objects.filter(actif=True, photo__isnull=False)[:3]
         context["top_home_slide"] = Media.published.filter(page='HO', is_big=True).first()
         context["bottom_home_slide"] = Media.published.filter(page='HO', is_big=True).last()
         # context["small_slide"] = Photos.objects.filter(actif=True, is_small=True)[:2]
