@@ -55,7 +55,7 @@
 							<h5>{% trans "Selectionnez une taille:" %}</h5>
 							{% for co in product.taille.all %}
 								<label>
-									<input type="radio" name="taille" value="{{co.name}}"/>
+									<input type="radio" name="taille" value="{{co.name}}"{% if forloop.counter == 1 %}checked{% endif %}/>
 									<span class="design"></span>
 									<span class="text">{{co.name}}</span>
 								</label>
@@ -67,7 +67,7 @@
 							<h5 class="m-4">{% trans "Selectionnez une Pointure:" %}</h5>
 							{% for co in product.pointure.all %}
 								<div class="d-inline-block text-center dot-wrapper taille__wrapper mt-4">
-									<input id="{{co.id}}" class="variant-input visually-hidden" type="radio" name="pointure" value="{{co.name}}"/>
+									<input id="{{co.id}}" class="variant-input visually-hidden" type="radio" name="pointure" value="{{co.name}}" {% if forloop.counter == 1 %}checked{% endif %}/>
 									<label class="variant__button__label" for="{{co.id}}">
 										{{co.name}}
 									</label>
@@ -84,7 +84,7 @@
 									{% for co in product.couleur.all  %}
 										<td class="colours">
 											<div class="d-inline-block text-center dot-wrapper">
-												<input type="radio" id="{{co.hex_value}}" name="color" value="{{co.hex_value}}" >
+												<input type="radio" id="{{co.hex_value}}" name="color" value="{{co.hex_value}}" {% if forloop.counter == 1 %}checked{% endif %}>
 												<label for="{{co.hex_value}}">
 													<span class="dot" style="background-color: {{ co.hex_value }};" title="{{ co.nom }}"></span>
 												</label>
