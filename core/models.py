@@ -33,6 +33,8 @@ class Category(MPTTModel):
     photo  = models.ImageField(upload_to='images/categories', null=True, blank=True)
     # tree = models.ForeignKey(Tree, verbose_name="Branche de Catégorie",related_name="sub_categories" ,on_delete=models.CASCADE)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    created = models.DateTimeField(verbose_name='Date de Création', auto_now_add=True)
+    updated = models.DateTimeField(verbose_name='Date de dernière mise à jour', auto_now=True)
     objects = models.Manager()
     published = ActiveManager()
 

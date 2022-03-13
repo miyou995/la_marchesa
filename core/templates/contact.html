@@ -30,10 +30,10 @@
 						<div class="contact-map size21" id="google_map" data-map-x="40.614439" data-map-y="-73.926781" data-pin="/static/images/icons/icon-position-map.png" data-scrollwhell="0" data-draggable="1">
 							<h1>{% trans "Coordonnées" %}</h1>
 							<h4 class="m-text26 p-b-36 p-t-15">
-								{% trans "Email" %}: <a class="m-text26 p-b-36 p-t-15" href="mailto:hello@maisonlamarchesa.com">hello@maisonlamarchesa.com</a>
+								{% trans "Email" %}: <a class="m-text26 p-b-36 p-t-15" href="mailto:{{business.email}}">{{business.email}}</a>
 							</h4>
 							<h4 class="m-text26 p-b-36 p-t-15">
-								{% trans "Téléphone" %}: <a class="m-text26 p-b-36 p-t-15" href="tel:00213774130200">00213 774 130 200 </a>
+								{% trans "Téléphone" %}: <a class="m-text26 p-b-36 p-t-15" href="tel:{{business.phone}}">{{business.phone}}</a>
 							</h4>
 						</div>
 					</div>
@@ -82,7 +82,7 @@
 					{% trans "Faites-vous livrer vos achats" %}
 				</h4>
 
-				<a href="{% url 'core:about' %}" class="s-text11 t-center">
+				<a href="{% url 'core:livraison' %}" class="s-text11 t-center">
 					{% trans "Cliquez ici pour plus d'info" %}
 				</a>
 			</div>

@@ -122,10 +122,10 @@
 		</div>
 	</div>
 	<div class="flex-c-m size22 bg0 s-text21 pos-relative">
-		{% trans "livraison gratuite pour une commande supérieure à 10 000 DA" %}
-		<a href="{% url 'core:products' %}" class="s-text22 hov6 p-l-5">
+		{% trans "livraison gratuite pour une commande supérieure à 10 000 DA " %}
+		{% comment %} <a href="{% url 'core:products' %}" class="s-text22 hov6 p-l-5 d-none d-md-block">
 			Shop 
-		</a>
+		</a> {% endcomment %}
 
 		<button class="flex-c-m pos2 size23 colorwhite eff3 trans-0-4 btn-romove-top-noti">
 			<i class="fa fa-remove fs-13" aria-hidden="true"></i>
@@ -138,8 +138,8 @@
 		<div class="container-menu-header-v2 p-t-16 ">
 			<div class="topbar2 p-b-10">
 				<div class="topbar-social">
-					<a href="#" class="topbar-social-item fa fa-facebook" style="color: #f0a1bf;" ></a>
-					<a href="#" class="topbar-social-item fa fa-instagram" style="color: #f0a1bf;" ></a>
+					<a href="{{business.facebook}}" class="topbar-social-item fa fa-facebook" style="color: #f0a1bf;" ></a>
+					<a href="{{business.insta}}" class="topbar-social-item fa fa-instagram" style="color: #f0a1bf;" ></a>
 				</div>
 
 				<!-- Logo2 -->
@@ -148,7 +148,7 @@
 				</a>
 				<div class="topbar-child2">
 					<span class="topbar-email" style="color: #f0a1bf;">
-						hello@maisonlamarchesa.com
+						<a href="mailto:{{business.email}}">{{business.email}}</a>
 					</span>
 				{% comment %}
 				<div class="topbar-language rs1-select2">
@@ -229,7 +229,7 @@
 							</li>
 							{% recursetree categories %}
 								<li>
-									<a href="{{cat.get_absolute_url}}">{{node.name}}</a>
+									<a href="{{node.get_absolute_url}}">{{node.name}}</a>
 									{% if node.children.count > 0 %}
 										<ul class="sub_menu">
 											{% for tree in node.children.all %}
@@ -259,8 +259,6 @@
 			<div class="btn-show-menu">
 				<!-- Header Icon mobile -->
 				<div class="header-icons-mobile">
-					
-
 					<span class="linedivide2"></span>
 					{% with total_items=cart|length %}
 						<div class="header-wrapicon2">
@@ -272,8 +270,6 @@
 									0
 								{% endif %}
 							</span>
-
-							<!-- Header cart noti -->
 							<div class="header-cart header-dropdown">
 								<ul class="header-cart-wrapitem">
 									{% for item in cart %}
@@ -287,7 +283,7 @@
 													{% endif %}
 												</div>
 												<div class="header-cart-item-txt">
-													<a href="#" class="header-cart-item-name">
+													<a href="{{product.get_absolute_url}}" class="header-cart-item-name">
 														{{product.name}}
 													</a>
 													<span class="header-cart-item-info">
@@ -303,7 +299,7 @@
 								</div>
 								<div class="header-cart-buttons">
 									<div class="header-cart-wrapbtn">
-										<a href="/panier" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">Voir panier</a>
+										<a href="{% url 'cart:cart_detail' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">Voir panier</a>
 									</div>
 									<div class="header-cart-wrapbtn">
 										<a href="{% url 'order:order_create' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">Commander</a>
@@ -335,14 +331,14 @@
 					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
 						<div class="topbar-child2-mobile">
 							<span class="topbar-email">
-								hello@maisonlamarchesa.com
+								{{business.email}}
 							</span>
 						</div>
 					</li>
 					<li class="item-topbar-mobile p-l-10">
 						<div class="topbar-social-mobile">
-							<a href="#" class="topbar-social-item fa fa-facebook"></a>
-							<a href="#" class="topbar-social-item fa fa-instagram"></a>
+							<a href="{{business.facebook}}" class="topbar-social-item fa fa-facebook"></a>
+							<a href="{{business.insta}}" class="topbar-social-item fa fa-instagram"></a>
 						</div>
 					</li>
 					<li>
@@ -356,7 +352,7 @@
 							<a href="{{cat.get_absolute_url}}">{{cat.name}}</a>
 							<ul class="sub_menu">
 								{% for c in cat.sub_categories.all %}
-									<li><a href="{{c.get_absolute_url}}" class="text-uppercase">{{c}}</a></li>
+									<li><a href="{{c.get_absolute_url}}" class="text-uppercase">{{c.name}}</a></li>
 								{% endfor %}
 							</ul>
 						</li>
@@ -383,21 +379,24 @@
 
 				<div>
 					<p class="s-text7 w-size27">
-						{% trans "Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879" %}
+						<a href="{{business.email}}">{{business.email}}</a><br>
+						<a href="{{business.phone}}">{{business.phone}}</a>
 					</p>
 
 					<div class="flex-m p-t-30">
-						<a href="#" class="fs-18 color1 p-r-20 fa fa-facebook"></a>
-						<a href="#" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
+						{% if business.facebook %}
+							<a href="{{business.facebook}}" class="fs-18 color1 p-r-20 fa fa-facebook"></a>
+						{% endif %}
+						{% if business.insta %}
+							<a href="{{business.insta}}" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
+						{% endif %}
 					</div>
 				</div>
 			</div>
-
 			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
 				<h4 class="s-text12 p-b-30">
 					{% trans "Categories" %}
 				</h4>
-
 				<ul>
 					{% for cat in categories %}
 						<li class="p-b-9">
@@ -406,8 +405,6 @@
 							</a>
 						</li>
 					{% endfor %}
-
-					
 				</ul>
 			</div>
 
@@ -417,28 +414,22 @@
 						{% trans "Paiement" %}
 					</a>
 				</h4>
-
 				<ul>
 					<li class="p-b-9">
 						<a href="{% url 'core:virement-bancaire' %}" class="s-text7">
 							{% trans "Virement bancaire" %}
 						</a>
 					</li>
-
 					<li class="p-b-9">
 						<a href="{% url 'core:paiement-especes' %}" class="s-text7">{% trans "Paiement en espèces" %}</a>
 					</li>
-
 					<li class="p-b-9">
 						<a href="{% url 'core:crte-bancaire' %}" class="s-text7">
 						{% trans "	Carte bancaire" %}
 						</a>
 					</li>
-
-				
 				</ul>
 			</div>
-
 			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
 				<h4 class="s-text12 p-b-30">
 					<a href="{% url 'core:livraison' %}" class="s-text12">
@@ -464,11 +455,11 @@
 
 		<div class="t-center p-l-15 p-r-15">
 
-			<a href="#">
+			<a href="{{business.facebook}}">
 				<img  src="{% static 'images/icons/facebook.png' %}" alt="IMG-facebook" style="height:44px;">
 			</a>
 
-			<a href="#">
+			<a href="{{business.insta}}">
 				<img  src="{% static 'images/icons/instagram.png' %}" alt="IMG-instagram" style="height:44px;">
 			</a>
 

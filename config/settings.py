@@ -36,9 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
+    'django.contrib.messages',    
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    "django.contrib.sitemaps",
+    "django.contrib.sites",
 # Apps
     'core',
     'cart',
@@ -166,7 +168,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CART_SESSION_ID = 'cart'
-
+SITE_ID =1
 INTERNAL_IPS = [
     # ...
     '127.0.0.1',

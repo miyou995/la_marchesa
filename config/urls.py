@@ -17,6 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from config import settings
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap
+from core.sitemaps import ProductSitemap, CategorySitemap, StaticSitemap
+
+sitemaps = {
+    'products': ProductSitemap,
+    'categories': CategorySitemap,
+    'static': StaticSitemap
+}
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("core.urls")),
@@ -24,6 +33,7 @@ urlpatterns = [
     path('orders/', include("order.urls")),
     path('coupons/', include("coupons.urls")),
     path('delivery/', include("delivery.urls")),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},name='django.contrib.sitemaps.views.sitemap'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
