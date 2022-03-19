@@ -17,7 +17,7 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/themify-icons.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/icon-font.min.css' %}">
@@ -50,11 +50,13 @@
 					{% for cat in categories %}
 						<li>
 							<a href="{{cat.get_absolute_url}}" style="color: #ffffff;">{{cat.name|truncatechars:12}}</a>
-							<ul class="sub_menu">
-								{% for c in cat.sub_categories.all %}
-									<li><a href="{{c.get_absolute_url}}" class="text-uppercase text-light">{{c|truncatechars:12}}</a></li>
-								{% endfor %}
-							</ul>
+							{% if cat.get_children %}
+								<ul class="sub_menu">
+									{% for c in cat.children.all %}
+									<li><a href="{{c.get_absolute_url}}" class="text-uppercase text-light">{{c.name|truncatechars:12}}</a></li>
+									{% endfor %}
+								</ul>
+							{% endif %}
 						</li>
 					{% endfor %}
 					
@@ -379,8 +381,10 @@
 
 				<div>
 					<p class="s-text7 w-size27">
-						<a href="{{business.email}}">{{business.email}}</a><br>
-						<a href="{{business.phone}}">{{business.phone}}</a>
+						<a href="{{business.email}}"> <i class="fa fa-envelope"></i> {{business.email}}</a><br>
+						<a href="{{business.phone}}"> <i class="fa fa-whatsapp"> </i> <i class="fa fa-phone"> </i> {{business.phone}}</a><br>
+						<a href="{{business.facebook}}"> <i class="fa fa-facebook"></i></a>
+						<a href="{{business.insta}}"> <i class="fa fa-instagram"></i></a><br>
 					</p>
 
 					<div class="flex-m p-t-30">

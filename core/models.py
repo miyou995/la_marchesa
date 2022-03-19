@@ -48,8 +48,8 @@ class Category(MPTTModel):
         self.slug = slugify(self.name +'-'+str(self.id))
         return super(Category, self).save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        return reverse("core:prod-by-cat", args=[self.slug])
+    # def get_absolute_url(self):
+    #     return reverse("core:products", kwargs={'category': self.slug})
 
     @cached_property
     def display_image(self):
@@ -93,7 +93,7 @@ class Product(models.Model):
 
     status     = models.CharField(choices=STATUS_PRODUIT, max_length=1, default='N', blank=True, null=True, verbose_name='Status')
 
- 
+
     created = models.DateTimeField(verbose_name='Date de Création', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='Date de dernière mise à jour', auto_now=True)
     

@@ -57,24 +57,24 @@ class RetourView(TemplateView):
 
 
 
-class CategoryProductsView(ListView):
-    context_object_name = 'products'
-    model = Product
-    paginate_by = 15
-    template_name = "products.html"
+# class CategoryProductsView(ListView):
+#     context_object_name = 'products'
+#     model = Product
+#     paginate_by = 15
+#     template_name = "products.html"
 
-    def get_queryset(self, *args, **kwargs): # new
-        products = Product.objects.filter(actif=True)
-        try:
-            category = get_object_or_404(Category, slug=self.kwargs['slug'])
-        except:
-            pass
-        return products
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["categories"] = Category.objects.all()
-        # context["products"] = Product.objects.all()
-        return context
+#     def get_queryset(self, *args, **kwargs): # new
+#         products = Product.objects.filter(actif=True)
+#         try:
+#             category = get_object_or_404(Category, slug=self.kwargs['slug'])
+#         except:
+#             pass
+#         return products
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["categories"] = Category.objects.all()
+#         # context["products"] = Product.objects.all()
+#         return context
 
 class ProductDetailView(DetailView):
     model = Product
@@ -87,55 +87,95 @@ class ProductDetailView(DetailView):
         context["wilayas"] = Wilaya.objects.all().order_by('name') 
         return context
 
-class ProductsView(ListView):
-    context_object_name = 'products'
-    model = Product
-    paginate_by = 15
-    template_name = "products.html"
+# class ProductsView(ListView):
+#     context_object_name = 'products'
+#     model = Product
+#     paginate_by = 15
+#     template_name = "products.html"
 
-    def get_queryset(self): # new
-        query = self.request.GET.get('q')
-        min = self.request.GET.get('min')
-        max = self.request.GET.get('max')
-        new = self.request.GET.get('new')
-        top = self.request.GET.get('top')
-        if max and new and top:
-            products = Product.objects.filter(price__range=[min, max], available=True, new= True, top=True)
-        elif max and new:
-            products = Product.objects.filter(price__range=[min, max], available=True,new= True)
-        elif max and top:
-            products = Product.objects.filter(price__range=[min, max], available=True, top=True)
-        elif top and new:
-            products = Product.objects.filter(available=True,new= True, top=True)
-        elif max:
-            products = Product.objects.filter(price__range=[min, max], available=True)
-        elif new:
-            products = Product.objects.filter(available=True,new= True)
-        elif top:
-            products = Product.objects.filter( available=True, top=True)
-        elif query:
-            if len(query) > 2:
-                by_2 = [query[i:i+2] for i in range(0, len(query), 2)][0]
-                by_1 = [query[i:i+2] for i in range(0, len(query), 2)][1:]
-                print('the sring split one  ', by_2)
-                print('the sring towo', by_1)
-                for i in by_1:
-                    products = Product.objects.filter(
-                            Q(name__icontains=by_2) & Q(name__icontains=i)
-                            )
-                    if not len(products):
-                        products = Product.objects.filter(
-                            Q(name__icontains=by_2) | Q(name__icontains=i)
-                            )
-                # products = Product.objects.filter(name__regex=r'(?i)dragx[\s\w]+')
-                # products = Product.objects.filter(name__icontains=by_2, name__icontains=by_1)# erreur
-                # products = Product.objects.filter(name__icontains=query)
-                    print('JE SUISS LAAAAAA EXCEPTIO N TXwO', products)
-            else: 
-                products = Product.objects.filter(name__icontains=query)
-        else :
-            products = Product.objects.all()
-        return products
+#     def get_queryset(self): # new
+#         query = self.request.GET.get('q')
+#         min = self.request.GET.get('min')
+#         max = self.request.GET.get('max')
+#         new = self.request.GET.get('new')
+#         top = self.request.GET.get('top')
+#         if max and new and top:
+#             products = Product.objects.filter(price__range=[min, max], available=True, new= True, top=True)
+#         elif max and new:
+#             products = Product.objects.filter(price__range=[min, max], available=True,new= True)
+#         elif max and top:
+#             products = Product.objects.filter(price__range=[min, max], available=True, top=True)
+#         elif top and new:
+#             products = Product.objects.filter(available=True,new= True, top=True)
+#         elif max:
+#             products = Product.objects.filter(price__range=[min, max], available=True)
+#         elif new:
+#             products = Product.objects.filter(available=True,new= True)
+#         elif top:
+#             products = Product.objects.filter( available=True, top=True)
+#         elif query:
+#             if len(query) > 2:
+#                 by_2 = [query[i:i+2] for i in range(0, len(query), 2)][0]
+#                 by_1 = [query[i:i+2] for i in range(0, len(query), 2)][1:]
+#                 print('the sring split one  ', by_2)
+#                 print('the sring towo', by_1)
+#                 for i in by_1:
+#                     products = Product.objects.filter(
+#                             Q(name__icontains=by_2) & Q(name__icontains=i)
+#                             )
+#                     if not len(products):
+#                         products = Product.objects.filter(
+#                             Q(name__icontains=by_2) | Q(name__icontains=i)
+#                             )
+#                 # products = Product.objects.filter(name__regex=r'(?i)dragx[\s\w]+')
+#                 # products = Product.objects.filter(name__icontains=by_2, name__icontains=by_1)# erreur
+#                 # products = Product.objects.filter(name__icontains=query)
+#                     print('JE SUISS LAAAAAA EXCEPTIO N TXwO', products)
+#             else: 
+#                 products = Product.objects.filter(name__icontains=query)
+#         else :
+#             products = Product.objects.all()
+#         return products
+
+
+
+def is_valid_queryparam(param):
+    return param != '' and param is not None
+
+def get_filtered_products(request):
+    context = {}
+    qs = Product.objects.filter(actif=True)
+
+    category_id = request.GET.get('category')
+    order = request.GET.get('orderby')
+    price = request.GET.get('price')
+    query = request.GET.get('query')
+    context["product_categories"] = Category.objects.filter(level=0, actif=True)
+    if is_valid_queryparam(query):
+        qs = qs.search(query)
+    if is_valid_queryparam(category_id):
+        cat = Category.objects.get(id=category_id)
+        context["selected_category"] = Category.objects.get(id=category_id)
+        children = cat.get_children()
+        qs = qs.filter(category__in=cat.get_descendants(include_self=True), actif=True)
+        if children.count():
+            context["product_categories"] = children
+        else : 
+            context["product_categories"] =  cat.get_siblings(include_self=True)
+    if is_valid_queryparam(order):
+        qs = qs.order_by(order)
+        
+    return {'qs': qs, 'context': context}
+
+
+def products_view(request):
+    context = get_filtered_products(request)['context']
+    queryset = get_filtered_products(request)['qs']
+
+    context['products'] = queryset
+    return render(request, 'products.html', context)
+
+
 
 
 

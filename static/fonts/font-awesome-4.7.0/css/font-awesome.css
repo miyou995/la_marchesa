@@ -57,6 +57,7 @@
 .fa-plus:before {
   content: "\f067";
 }
+
 .fa-minus:before {
   content: "\f068";
 }
@@ -97,3 +98,9 @@
 .fa-snapchat-ghost:before {
   content: "\f2ac";
 }
+.fa-envelope:before{
+  content:"\f0e0"
+}
+.fa-phone:before{content:"\f095"}
+.fa-whatsapp:before{content:"\f232"}
+.fa-viber:before{content:"\f409"}

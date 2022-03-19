@@ -115,7 +115,8 @@ a:focus {
 
 a:hover {
 	text-decoration: none;
-	color: #e65540;
+	color: #000;
+  font-weight: bolder;
 }
 
 /* ------------------------------------ */
@@ -633,7 +634,7 @@ li.sale-noti > a {
 }
 
 .sub_menu > li:hover > a {
-  color: #e65540;
+  color: #f0a1bf;
   text-decoration: none;
 }
 

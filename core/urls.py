@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import IndexView,IndexView, AboutView, ContactView, get_json_view, ProductsView, CategoryProductsView, ProductsView, ProductDetailView, VirementBancaireView, CarteBancaireView ,PaiementView ,PaiementEspecesView ,EchangeView ,LivraisonView ,RetourView
+from .views import IndexView,IndexView, AboutView, ContactView, get_json_view, ProductDetailView, VirementBancaireView, CarteBancaireView ,PaiementView ,PaiementEspecesView ,EchangeView ,LivraisonView ,RetourView, products_view
 
 app_name = 'core'
 
@@ -21,9 +21,9 @@ urlpatterns = [
 
 
     path('contact/', ContactView.as_view(), name='contact'),
-    path('produits', ProductsView.as_view(), name='products'),
-    path('produits/<slug:slug>/', CategoryProductsView.as_view(), name='prod-by-cat'),
-    path('produits/<slug:slug>/', CategoryProductsView.as_view(), name='prod-by-sub-cat'),
-    path('produits/produit/<slug:slug>/', ProductDetailView.as_view(), name='productDetail'),
+    path('produits/', products_view, name='products'),
+    # path('produits/<slug:slug>/', CategoryProductsView.as_view(), name='prod-by-cat'),
+    # path('produits/<slug:slug>/', CategoryProductsView.as_view(), name='prod-by-sub-cat'),
+    path('produits/<slug:slug>/', ProductDetailView.as_view(), name='productDetail'),
 
 ]

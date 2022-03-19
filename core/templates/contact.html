@@ -16,24 +16,22 @@
 		<!-- Alerts-->
 		{% if message %}
 			<div id="message" class="container">
-
             <div class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
                 {{ message }}
             </div>
-
 		{% endif %}
 		<!-- end alert -->
 			<div class="row">
 				<div class="col-md-6 p-b-30">
 					<div class="p-r-20 p-r-0-lg">
-						<div class="contact-map size21" id="google_map" data-map-x="40.614439" data-map-y="-73.926781" data-pin="/static/images/icons/icon-position-map.png" data-scrollwhell="0" data-draggable="1">
+						<div>
 							<h1>{% trans "Coordonnées" %}</h1>
 							<h4 class="m-text26 p-b-36 p-t-15">
-								{% trans "Email" %}: <a class="m-text26 p-b-36 p-t-15" href="mailto:{{business.email}}">{{business.email}}</a>
+								<i class="fa fa-envelope"> </i> <a class="m-text26 p-b-36 p-t-15" href="mailto:{{business.email}}">{{business.email}}</a>
 							</h4>
 							<h4 class="m-text26 p-b-36 p-t-15">
-								{% trans "Téléphone" %}: <a class="m-text26 p-b-36 p-t-15" href="tel:{{business.phone}}">{{business.phone}}</a>
+ 								<i class="fa fa-whatsapp"> </i> <i class="fa fa-phone"> </i> <a class="m-text26 p-b-36 p-t-15" href="tel:{{business.phone}}">{{business.phone}}</a>
 							</h4>
 						</div>
 					</div>
